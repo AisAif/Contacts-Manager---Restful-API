@@ -1,0 +1,569 @@
+openapi: '3.0.2'
+info:
+  title: Contacts Manager Restful API
+  version: '1.0'
+servers:
+  - url: https://cm.ais-aif.my.id/api
+tags:
+  - name: Public
+  - name: User
+  - name: Contact
+  - name: Address
+paths:
+  /users:
+    post:
+      tags:
+        - Public
+      summary: User Register
+      responses:
+        '200':
+          description: User created succesfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+        '400':
+          description: Bad Request Body
+      requestBody:
+        $ref: "#/components/requestBodies/UserRegister"
+  /users/login:
+    post:
+      tags:
+        - Public
+      summary: User Login
+      responses:
+        '200': 
+          description: User Logged In Succesfully
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  data:
+                    type: object
+                    properties:
+                      token:
+                        type: string
+                        example: aks2-a23j-pals-0djs
+        '400':
+          description: Bad Request Body
+        '404':
+          description: User Is Not Found
+      requestBody:
+        $ref: "#/components/requestBodies/UserLogin"
+  /users/current:
+    get:
+      tags:
+        - User
+      summary: Get User
+      responses:
+        '200': 
+          description: User Data Is Obtained
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/UserResponse"
+        '401':
+          description: Unauthorized
+    post:
+      tags:
+        - User
+      summary: Update User
+      responses:
+        '200': 
+          description: User Data Is Updated Succesfully
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/UserResponse"
+        '401':
+          description: Unauthorized
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+      requestBody:
+        $ref: "#/components/requestBodies/UserRegister"
+  /users/current/logout:
+    delete:
+      tags:
+        - User
+      summary: Logout User
+      responses:
+        '200': 
+          description: User Logged Out Succesfully
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  data:
+                    type: string
+                    example: Logout successful
+        '401':
+          description: Unauthorized
+  /contacts:
+    post:
+      tags:
+        - Contact
+      summary: Create Contact
+      responses:
+        '200': 
+          description: Contact Is Created Succesfully
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Contact'
+        '400':
+          description: Bad Request Body
+        '401':
+          description: Unauthorized
+      requestBody:
+        $ref: "#/components/requestBodies/Contact"
+    get:
+      tags:
+        - Contact
+      summary: Search Contact
+      responses:
+        '200': 
+          description: Contacts Are Found
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Contacts'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      parameters:
+        - name: name
+          in: query
+          schema:
+            type: string
+            example: guntur
+        - name: email
+          in: query
+          schema:
+            type: string
+            example: guntur@
+        - name: phone
+          in: query
+          schema:
+            type: string
+            example: "08"
+        - name: page
+          in: query
+          schema:
+            type: integer
+            example: 1
+        - name: size
+          in: query
+          schema:
+            type: integer
+            example: 10
+  /contacts/{contact-id}:
+    get:
+      tags:
+        - Contact
+      summary: Get Contact
+      responses:
+        '200': 
+          description: Contact Is Found
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Contact'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      parameters:
+        - name: contact-id
+          in: path
+          schema:
+            type: integer
+            example: 10
+          required: true
+    put:
+      tags:
+        - Contact
+      summary: Update Contact
+      responses:
+        '200': 
+          description: Contact Is Updated
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Contact'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      parameters:
+        - name: contact-id
+          in: path
+          schema:
+            type: integer
+            example: 10
+          required: true
+      requestBody:
+        $ref: "#/components/requestBodies/Contact"
+    delete:
+      tags:
+        - Contact
+      summary: Delete Contact
+      responses:
+        '200': 
+          description: Contact Is Deleted
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  data: 
+                    type: string
+                    example: Contact removed succesfully
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      parameters:
+        - name: contact-id
+          in: path
+          schema:
+            type: integer
+            example: 10
+          required: true
+  /contacts/{contact-id}/addresses:
+    post:
+      tags:
+        - Address
+      summary: Create Address
+      responses:
+        '200': 
+          description: Address Is Created
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Address'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      parameters:
+        - name: contact-id
+          in: path
+          schema:
+            type: integer
+            example: 10
+          required: true
+      requestBody:
+        $ref: "#/components/requestBodies/Address"
+    get:
+      tags:
+        - Address
+      summary: List Addressess
+      responses:
+        '200':
+          description: List of Addresses Are Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Addresses"
+      parameters:
+        - name: contact-id
+          in: path
+          schema:
+            type: integer
+            example: 10
+          required: true
+  /contacts/{contact-id}/addresses/{address-id}:
+    get:
+      tags:
+        - Address
+      summary: Get Address
+      responses:
+        '200': 
+          description: Address Is Found
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Address'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      parameters:
+        - name: contact-id
+          in: path
+          schema:
+            type: integer
+            example: 10
+          required: true
+        - name: address-id
+          in: path
+          schema:
+            type: integer
+            example: 2
+          required: true
+    put:
+      tags:
+        - Address
+      summary: Update Address
+      responses:
+        '200': 
+          description: Address Is Updated
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Address'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      parameters:
+        - name: contact-id
+          in: path
+          schema:
+            type: integer
+            example: 10
+          required: true
+        - name: address-id
+          in: path
+          schema:
+            type: integer
+            example: 2
+          required: true
+      requestBody:
+        $ref: "#/components/requestBodies/Address"
+    delete:
+      tags:
+        - Address
+      summary: Delete Address
+      responses:
+        '200': 
+          description: Address Is Deleted
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  data:
+                    type: string
+                    example: Address removed succesfully
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      parameters:
+        - name: contact-id
+          in: path
+          schema:
+            type: integer
+            example: 10
+          required: true
+        - name: address-id
+          in: path
+          schema:
+            type: integer
+            example: 2
+          required: true
+components:
+  schemas:
+    UserResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 200
+        data:
+          type: object
+          properties:
+            username:
+              type: string
+              example: aisaif
+            name:
+              type: string
+              example: Abdullah Isbarul Fahmi
+    Contact:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 200
+        data:
+          type: object
+          properties:
+            firstname: 
+              type: string
+              example: Guntur
+            lastname: 
+              type: string
+              example: Bledek
+            email: 
+              type: string
+              example: guntur@bledek.com
+            phone: 
+              type: string
+              example: 089999999999
+    Contacts:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 200
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              firstname: 
+                type: string
+                example: Guntur
+              lastname: 
+                type: string
+                example: Bledek
+              email: 
+                type: string
+                example: guntur@bledek.com
+              phone: 
+                type: string
+                example: 089999999999
+    Address:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 200
+        data:
+          type: object
+          properties:
+            street: 
+              type: string
+              example: Jl. Prof. Dr. Hamka
+            city: 
+              type: string
+              example: Semarang
+            province: 
+              type: string
+              example: Jawa Tengah
+            country: 
+              type: string
+              example: Indonesia
+    Addresses:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 200
+        data:
+          type: array
+          items:
+            type: object
+            properties:  
+              street: 
+                type: string
+                example: Jl. Prof. Dr. Hamka
+              city: 
+                type: string
+                example: Semarang
+              province: 
+                type: string
+                example: Jawa Tengah
+              country: 
+                type: string
+                example: Indonesia
+  requestBodies:
+    UserRegister:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              username:
+                type: string
+                example: aisaif
+              name:
+                type: string
+                example: Abdullah Isbarul Fahmi
+              password:
+                type: string
+                example: "*****"
+    UserLogin:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              username:
+                type: string
+                example: aisaif
+              password:
+                type: string
+                example: "*****"
+    Contact:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              firstname: 
+                type: string
+                example: Guntur
+              lastname: 
+                type: string
+                example: Bledek
+              email: 
+                type: string
+                example: guntur@bledek.com
+              phone: 
+                type: string
+                example: 089999999999
+    Address:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              street: 
+                type: string
+                example: Jl. Prof. Dr. Hamka
+              city: 
+                type: string
+                example: Semarang
+              province: 
+                type: string
+                example: Jawa Tengah
+              country: 
+                type: string
+                example: Indonesia
+      required: true
+        
