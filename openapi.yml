@@ -68,6 +68,13 @@ paths:
                 $ref: "#/components/schemas/UserResponse"
         '401':
           description: Unauthorized
+      parameters:
+        - name: Authentication
+          in: header
+          description: "Your Token from Login"
+          schema:
+            type: string
+            example: aks2-a23j-pals-0djs
     post:
       tags:
         - User
@@ -87,6 +94,13 @@ paths:
           description: Not Found
       requestBody:
         $ref: "#/components/requestBodies/UserRegister"
+      parameters:
+        - name: Authentication
+          in: header
+          description: "Your Token from Login"
+          schema:
+            type: string
+            example: aks2-a23j-pals-0djs
   /users/current/logout:
     delete:
       tags:
@@ -108,6 +122,13 @@ paths:
                     example: Logout successful
         '401':
           description: Unauthorized
+      parameters:
+        - name: Authentication
+          in: header
+          description: "Your Token from Login"
+          schema:
+            type: string
+            example: aks2-a23j-pals-0djs
   /contacts:
     post:
       tags:
@@ -126,6 +147,13 @@ paths:
           description: Unauthorized
       requestBody:
         $ref: "#/components/requestBodies/Contact"
+      parameters:
+        - name: Authentication
+          in: header
+          description: "Your Token from Login"
+          schema:
+            type: string
+            example: aks2-a23j-pals-0djs
     get:
       tags:
         - Contact
@@ -144,6 +172,12 @@ paths:
         '404':
           description: Not Found
       parameters:
+        - name: Authentication
+          in: header
+          description: "Your Token from Login"
+          schema:
+            type: string
+            example: aks2-a23j-pals-0djs
         - name: name
           in: query
           schema:
@@ -188,6 +222,12 @@ paths:
         '404':
           description: Not Found
       parameters:
+        - name: Authentication
+          in: header
+          description: "Your Token from Login"
+          schema:
+            type: string
+            example: aks2-a23j-pals-0djs
         - name: contact-id
           in: path
           schema:
@@ -212,6 +252,12 @@ paths:
         '404':
           description: Not Found
       parameters:
+        - name: Authentication
+          in: header
+          description: "Your Token from Login"
+          schema:
+            type: string
+            example: aks2-a23j-pals-0djs
         - name: contact-id
           in: path
           schema:
@@ -245,6 +291,12 @@ paths:
         '404':
           description: Not Found
       parameters:
+        - name: Authentication
+          in: header
+          description: "Your Token from Login"
+          schema:
+            type: string
+            example: aks2-a23j-pals-0djs
         - name: contact-id
           in: path
           schema:
@@ -270,6 +322,12 @@ paths:
         '404':
           description: Not Found
       parameters:
+        - name: Authentication
+          in: header
+          description: "Your Token from Login"
+          schema:
+            type: string
+            example: aks2-a23j-pals-0djs
         - name: contact-id
           in: path
           schema:
@@ -290,6 +348,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/Addresses"
       parameters:
+        - name: Authentication
+          in: header
+          description: "Your Token from Login"
+          schema:
+            type: string
+            example: aks2-a23j-pals-0djs
         - name: contact-id
           in: path
           schema:
@@ -345,6 +409,12 @@ paths:
         '404':
           description: Not Found
       parameters:
+        - name: Authentication
+          in: header
+          description: "Your Token from Login"
+          schema:
+            type: string
+            example: aks2-a23j-pals-0djs
         - name: contact-id
           in: path
           schema:
@@ -384,6 +454,12 @@ paths:
         '404':
           description: Not Found
       parameters:
+        - name: Authentication
+          in: header
+          description: "Your Token from Login"
+          schema:
+            type: string
+            example: aks2-a23j-pals-0djs
         - name: contact-id
           in: path
           schema:
@@ -433,7 +509,7 @@ components:
               example: guntur@bledek.com
             phone: 
               type: string
-              example: 089999999999
+              example: "089999999999"
     Contacts:
       type: object
       properties:
@@ -456,7 +532,7 @@ components:
                 example: guntur@bledek.com
               phone: 
                 type: string
-                example: 089999999999
+                example: "089999999999"
     Address:
       type: object
       properties:
@@ -546,7 +622,7 @@ components:
                 example: guntur@bledek.com
               phone: 
                 type: string
-                example: 089999999999
+                example: "089999999999"
     Address:
       content:
         application/json:
