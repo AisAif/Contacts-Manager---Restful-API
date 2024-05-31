@@ -1,6 +1,5 @@
-# Contacts-Manager-Restful-API
-# ClassMath Rest API
-__ClassMath__ is a app that provide math learning materials and questions.
+# Contacts Manager Restful API
+__Contacts Manager__ allow you to manage your contacts easily.
 ## Required Tools
 - __Node JS__ (Latest Version)
 - __MySQL Server__ (Latest Version)
